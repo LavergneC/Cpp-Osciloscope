@@ -11,8 +11,10 @@ MyCanvas::MyCanvas(QWidget *parent) : QWidget(parent)
     /* Les valeurs stockées à afficher */
     values = new QList<unsigned int>;
 
-    /* Initialisation d'attributs qui pourront êtr changes par slot*/
+    /* Initialisation d'attributs qui pourront être changes par slot*/
     m_zoom = 100;
+    m_echelleX = 100;
+    m_echelleY = 100;
     couleur = Qt::black;
 }
 /*
@@ -20,7 +22,7 @@ MyCanvas::MyCanvas(QWidget *parent) : QWidget(parent)
 */
 QPointF MyCanvas::coo(double x, double y)
 {
-    return QPointF(x*(double)m_unite * (m_zoom/100), y*(double)m_unite * (m_zoom/100));
+    return QPointF(x*(double)m_unite * (m_zoom/100) * (m_echelleX/100), y*(double)m_unite * (m_zoom/100) * (m_echelleY/100));
 }
 
 void MyCanvas::paintEvent(QPaintEvent *)
@@ -89,12 +91,22 @@ void MyCanvas::changerCouleur()
 }
 
 /*
- * Slot pour mettre la jour la valeur du zoom
+ * SlotQ pour mettre la jour nos valeur pour l'affichage
  */
 void MyCanvas::changerZoom(int z)
 {
    // m_unite = (float)z * 0.05;
     m_zoom = z;
+    update();
+}
+
+void MyCanvas::changerEchelleX(int ex){
+    m_echelleX = ex;
+    update();
+}
+
+void MyCanvas::changerEchelleY(int eY){
+    m_echelleY = eY;
     update();
 }
 
@@ -106,7 +118,7 @@ void MyCanvas::newValue(short v){
     static unsigned short index = 0;
 
     /* La taille de la liste vallue est limite à 1000 car le camvas fait 1000 pixels
-     * Si la liste n'est pas plein on ajoute une nouvelle valeur
+     * Si la liste n'est pas pleine on ajoute une nouvelle valeur
      * Sinon on remplace une valeur
      */
     if (values->size()<1000){
@@ -116,9 +128,7 @@ void MyCanvas::newValue(short v){
         values->replace(index,v);
     index = (index+1)%1000;
 }
-/*
- * Voilà voilà...
- */
+
 void MyCanvas::updateCanvas(){
     update();
 }

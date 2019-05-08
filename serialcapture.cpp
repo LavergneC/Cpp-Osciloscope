@@ -35,7 +35,7 @@ void SerialCapture::readData()
     QByteArray buf=m_serial->readAll();
     std::string buffS = buf.toStdString();
 
-    // Découpage de la longue tram reçue à l'aide des \n
+    /* Découpage de la longue tram reçue à l'aide des \n */
     QList<QByteArray> laListe = buf.split('\n');
 
     /* Suppression des données qui pourrait être troquées */

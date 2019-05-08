@@ -18,12 +18,17 @@ private :
     Qt::GlobalColor couleur;
 
     double m_zoom;
+    double m_echelleX;
+    double m_echelleY;
 
     QList<unsigned int>*values;
 
 public slots:
     void changerCouleur();
     void changerZoom(int z);
+    void changerEchelleX(int ex);
+    void changerEchelleY(int ey);
+
     void newValue(short v);
     void updateCanvas();
 };

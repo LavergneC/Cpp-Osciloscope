@@ -38,8 +38,10 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     /*On place la grille segondaire dans la grille principale, dans le deuxième case */
     maGrille->addLayout(maGrille2,1,0);
 
-    connect(boutonQ,&QPushButton::clicked,qApp, &QCoreApplication::quit);
-    connect(zoomParam,&Param::valeurChangee,myC,&MyCanvas::changerZoom);
+    connect(boutonQ, &QPushButton::clicked, qApp, &QCoreApplication::quit);
+    connect(zoomParam, &Param::valeurChangee, myC, &MyCanvas::changerZoom);
+    connect(echelleXParam, &Param::valeurChangee, myC, &MyCanvas::changerEchelleX);
+    connect(echelleYParam, &Param::valeurChangee, myC, &MyCanvas::changerEchelleY);
 }
 
 MainWindow::~MainWindow()
