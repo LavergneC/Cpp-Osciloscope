@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     echantillon.cpp \
+    param.cpp \
     serialcapture.cpp \
     mycanvas.cpp
 
 HEADERS += \
         mainwindow.h \
     echantillon.h \
+    param.h \
     serialcapture.h \
     mycanvas.h
 
