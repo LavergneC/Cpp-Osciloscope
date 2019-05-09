@@ -80,15 +80,15 @@ void MyCanvas::paintEvent(QPaintEvent *)
  */
 void MyCanvas::changerCouleur()
 {
-    static Qt::GlobalColor tab[19] = {
-              Qt::color0,Qt::color1,Qt::black,Qt::white, Qt::darkGray,Qt:: gray,Qt::lightGray,Qt:: red,Qt:: green, Qt:: blue,
+    static Qt::GlobalColor tab[14] = {
+              Qt::white, Qt::darkGray,Qt:: gray, Qt:: red,Qt:: green, Qt:: blue,
               Qt:: cyan,Qt:: yellow,Qt:: darkRed,Qt:: darkGreen,Qt:: darkBlue,Qt::  darkCyan,
-              Qt:: darkMagenta,Qt:: darkYellow,Qt::transparent
+              Qt:: darkMagenta,Qt:: darkYellow
             };
 
     static int indexCouleur = 0;
     couleur = tab[indexCouleur];
-    indexCouleur = (indexCouleur+1) %20;
+    indexCouleur = (indexCouleur+1) %15;
 
     update();
 }
