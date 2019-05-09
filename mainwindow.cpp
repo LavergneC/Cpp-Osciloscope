@@ -2,13 +2,14 @@
 #include "ui_mainwindow.h"
 #include "mycanvas.h"
 #include "serialcapture.h"
-#include "param.h"
+
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
     /*Création de deux grilles pour y ranger nos widgets*/
     maGrille  = new QGridLayout(this);
     QGridLayout* maGrille2 = new QGridLayout();
+    QGridLayout* grilleBoutons = new QGridLayout();
 
     /*Canvas responsable de l'affichage*/
     MyCanvas *myC = new MyCanvas(this);
@@ -22,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     /*Création des widgets*/
     QPushButton* boutonQ = new QPushButton(this);
     boutonQ->setText("Quitter");
+    QPushButton* boutonR = new QPushButton(this);
+    boutonR->setText("Reset");
+
     Param* zoomParam = new Param("Zoom",50,200,100,this);
     Param* echelleXParam = new Param("EchelleX",50,200,100,this);
     Param* echelleYParam = new Param("EchelleY",50,200,100,this);
@@ -33,15 +37,23 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     maGrille2->addWidget(echelleXParam,0,0);
     maGrille2->addWidget(echelleYParam,0,1);
     maGrille2->addWidget(zoomParam,1,0);
-    maGrille2->addWidget(boutonQ,1,1);
-
-    /*On place la grille segondaire dans la grille principale, dans le deuxième case */
+    grilleBoutons->addWidget(boutonQ,0,1);
+    grilleBoutons->addWidget(boutonR,0,0);
+    /*On place la grille segondaire dans la grille principale, dans la deuxième case */
     maGrille->addLayout(maGrille2,1,0);
+
+    /* On place la grille des bouton dans la grille des widgets */
+    maGrille2->addLayout(grilleBoutons,1,1);
 
     connect(boutonQ, &QPushButton::clicked, qApp, &QCoreApplication::quit);
     connect(zoomParam, &Param::valeurChangee, myC, &MyCanvas::changerZoom);
     connect(echelleXParam, &Param::valeurChangee, myC, &MyCanvas::changerEchelleX);
     connect(echelleYParam, &Param::valeurChangee, myC, &MyCanvas::changerEchelleY);
+
+    connect(boutonR, &QPushButton::clicked, zoomParam, &Param::reset);
+    connect(boutonR, &QPushButton::clicked, echelleXParam, &Param::reset);
+    connect(boutonR, &QPushButton::clicked, echelleYParam, &Param::reset);
+
 }
 
 MainWindow::~MainWindow()

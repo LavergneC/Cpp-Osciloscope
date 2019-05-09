@@ -16,6 +16,7 @@ private:
     QLabel* label;
     QLCDNumber* lcd;
     QSlider* slider;
+    int valReset;
 
 public:
     Param(QString nom, int min, int max, int valInit, QWidget *parent=nullptr);
@@ -23,6 +24,8 @@ public:
 
 signals:
     void valeurChangee(int);
+public slots:
+    void reset();
 };
 
 #endif // PARAM_H

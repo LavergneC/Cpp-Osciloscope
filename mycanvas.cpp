@@ -69,6 +69,9 @@ void MyCanvas::paintEvent(QPaintEvent *)
     }
 
     maFeuille.restore();
+
+    debugSetValue();/*Debug ONLY*/
+    updateCanvas();
 }
 
 /*
@@ -117,7 +120,8 @@ void MyCanvas::newValue(short v){
     v /=100; // remise à l'echelle, très moche
     static unsigned short index = 0;
 
-    /* La taille de la liste vallue est limite à 1000 car le camvas fait 1000 pixels
+    /*
+     * La taille de la liste vallue est limite à 1000 car le camvas fait 1000 pixels
      * Si la liste n'est pas pleine on ajoute une nouvelle valeur
      * Sinon on remplace une valeur
      */
@@ -131,4 +135,13 @@ void MyCanvas::newValue(short v){
 
 void MyCanvas::updateCanvas(){
     update();
+}
+
+void MyCanvas::debugSetValue(){
+    int c = 500;
+    for (int i =0; i<1000; i++){
+        newValue(c*10);
+        c--;
+
+    }
 }

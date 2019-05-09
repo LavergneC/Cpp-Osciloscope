@@ -2,21 +2,22 @@
 
 Param::Param(QString nom, int min, int max, int valInit, QWidget *parent) : QWidget (parent)
 {
+    valReset = valInit;
     box = new QHBoxLayout(this);
     this->setGeometry(0,0,300,50);
     this->setFixedHeight(45);
 
-    QLabel* label = new QLabel();
+    label = new QLabel();
     label->setText(nom);
 
     box->addWidget(label);
 
-    QLCDNumber* lcd = new QLCDNumber();
+    lcd = new QLCDNumber();
     lcd->display(valInit);
     lcd->move(130,0);
     box->addWidget(lcd);
 
-    QSlider* slider = new QSlider(Qt::Horizontal);
+    slider = new QSlider(Qt::Horizontal);
     slider->setRange(min,max);
     slider->setValue(valInit);
     slider->move(200,0);
@@ -31,4 +32,10 @@ Param::~Param(){
     delete lcd;
     delete slider;
     delete box;
+}
+
+void Param::reset(){
+    slider->setValue(valReset);
+    lcd->display(valReset);
+    emit valeurChangee(valReset);
 }

@@ -23,6 +23,8 @@ private :
 
     QList<unsigned int>*values;
 
+    void debugSetValue();
+
 public slots:
     void changerCouleur();
     void changerZoom(int z);
