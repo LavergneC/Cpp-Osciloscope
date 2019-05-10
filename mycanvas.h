@@ -1,6 +1,7 @@
 #ifndef MYCANVAS_H
 #define MYCANVAS_H
 #include <QWidget>
+#include <QLabel>
 
 class MyCanvas : public QWidget
 {
@@ -13,6 +14,7 @@ protected:
     void paintEvent(QPaintEvent *);
 
 private :
+    QLabel* labelRunPause;
     const static int m_largeur = 1000, m_hauteur = 600;
     float m_unite = 5;
     Qt::GlobalColor couleur;

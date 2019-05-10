@@ -1,8 +1,5 @@
 #include "serialcapture.h"
 
-/*
- * Code copier-coller du cour du prof
- */
 SerialCapture::SerialCapture()
 {
     m_serial=new QSerialPort(this);
@@ -20,9 +17,6 @@ SerialCapture::SerialCapture()
     connect(m_serial,&QSerialPort::readyRead,this,&SerialCapture::readData);
 }
 
-/*
- * Code copier-coller du cour du prof
- */
 void SerialCapture::handleError(QSerialPort::SerialPortError error)
 {
     if(error==QSerialPort::ResourceError) {
