@@ -18,15 +18,17 @@ MyCanvas::MyCanvas(QWidget *parent) : QWidget(parent)
     couleur = Qt::black;
 }
 /*
- * Fonction pour adapter l'affichage et gestion du zoom
+ * Fonction pour adapter l'affichage et gestion des zoom
 */
 QPointF MyCanvas::coo(double x, double y)
 {
-    return QPointF(x*(double)m_unite * (m_zoom/100) * (m_echelleX/100), y*(double)m_unite * (m_zoom/100) * (m_echelleY/100));
+    return QPointF(x*(double)m_unite * (m_zoom/100) * (m_echelleX/100), y * (double)m_unite * (m_zoom/100) * (m_echelleY/100) * -1);
 }
 
 void MyCanvas::paintEvent(QPaintEvent *)
 {
+    // debugSetValue();/*Debug ONLY*/
+
     QPainter maFeuille(this);
 
     maFeuille.save();
@@ -63,14 +65,14 @@ void MyCanvas::paintEvent(QPaintEvent *)
     maFeuille.drawLine(coo(0,-500),coo(0,500));
 
     /* Dessin des valeurs stockées dans values */
-    maFeuille.setPen(QPen(couleur,2*(m_zoom/100),Qt::SolidLine));
-    for(double x = -500; x < 500 && values->size() == 1000; x+=0.1){
+    maFeuille.setPen(QPen(couleur,3*(m_zoom/100),Qt::SolidLine));
+    for(double x = -500; x < 500 && values->size() == 1000; x++){
        maFeuille.drawPoint(coo(x,values->at(x+500)));
     }
 
     maFeuille.restore();
 
-    debugSetValue();/*Debug ONLY*/
+
     updateCanvas();
 }
 
@@ -88,7 +90,7 @@ void MyCanvas::changerCouleur()
 
     static int indexCouleur = 0;
     couleur = tab[indexCouleur];
-    indexCouleur = (indexCouleur+1) %15;
+    indexCouleur = (indexCouleur + 1) % 15;
 
     update();
 }
@@ -117,6 +119,8 @@ void MyCanvas::changerEchelleY(int eY){
  *  Slot pour ajouter une nouvelle valeur à notre liste de valeur
  */
 void MyCanvas::newValue(short v){
+    if(enPause)
+        return;
     v /=100; // remise à l'echelle, très moche
     static unsigned short index = 0;
 
@@ -138,10 +142,19 @@ void MyCanvas::updateCanvas(){
 }
 
 void MyCanvas::debugSetValue(){
-    int c = 500;
-    for (int i =0; i<1000; i++){
-        newValue(c*10);
-        c--;
+   /* for(int i = 0; i<250; i++)
+        newValue(10*100);
 
-    }
+    int c = -100;
+    for (int i =0; i<500; i++){
+        newValue(c*100);
+        c++;
+
+    }*/
+    for(int i = -500; i<500; i++)
+        newValue(abs(i)*100/2);
+
+}
+void MyCanvas::pausePlay(){
+    enPause ^= 1;
 }

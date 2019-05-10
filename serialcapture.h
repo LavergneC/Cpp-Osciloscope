@@ -12,7 +12,6 @@ class SerialCapture : public QWidget
 {
     Q_OBJECT
 private:
-    QList<unsigned short> m_data; // utile ???
     QSerialPort *m_serial;
 
 public:

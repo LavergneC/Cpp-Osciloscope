@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "mycanvas.h"
-#include "serialcapture.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
@@ -12,10 +11,10 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     QGridLayout* grilleBoutons = new QGridLayout();
 
     /*Canvas responsable de l'affichage*/
-    MyCanvas *myC = new MyCanvas(this);
+    myC = new MyCanvas(this);
 
     /*SerialCapture, responsable de la récupération des données*/
-    SerialCapture * myS = new SerialCapture();
+    myS = new SerialCapture();
 
     connect(myS,&SerialCapture::finTram,myC,&MyCanvas::updateCanvas);
     connect(myS,&SerialCapture::newValue,myC,&MyCanvas::newValue);
@@ -27,10 +26,12 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     boutonR->setText("Reset");
     QPushButton* boutonC = new QPushButton(this);
     boutonC->setText("Couleur");
+    QPushButton* boutonP = new QPushButton(this);
+    boutonP->setText("Pause/Play");
 
-    Param* zoomParam = new Param("Zoom",50,200,100,this);
-    Param* echelleXParam = new Param("EchelleX",50,200,100,this);
-    Param* echelleYParam = new Param("EchelleY",50,200,100,this);
+    zoomParam = new Param("Zoom",50,200,100,this);
+    echelleXParam = new Param("EchelleX",50,200,100,this);
+    echelleYParam = new Param("EchelleY",50,200,100,this);
 
     /* Notre ecran est dans la première case de la grille principale*/
     maGrille->addWidget(myC,0,0);
@@ -40,10 +41,11 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     maGrille2->addWidget(echelleYParam,0,1);
     maGrille2->addWidget(zoomParam,1,0);
 
-    /* On ajoute les boutons dans le grille des boutons */
-    grilleBoutons->addWidget(boutonQ,0,2);
-    grilleBoutons->addWidget(boutonC,0,1);
-    grilleBoutons->addWidget(boutonR,0,0);
+    /* On ajoute les boutons dans la grille des boutons */
+    grilleBoutons->addWidget(boutonQ,1,1);
+    grilleBoutons->addWidget(boutonC,0,0);
+    grilleBoutons->addWidget(boutonR,0,1);
+    grilleBoutons->addWidget(boutonP,1,0);
 
     /* On place la grille des bouton dans la grille des widgets */
     maGrille2->addLayout(grilleBoutons,1,1);
@@ -61,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 
     connect(boutonC, &QPushButton::clicked, myC, &MyCanvas::changerCouleur);
     connect(boutonQ, &QPushButton::clicked, qApp, &QCoreApplication::quit);
+    connect(boutonP, &QPushButton::clicked, myC, &MyCanvas::pausePlay);
 }
 
 MainWindow::~MainWindow()

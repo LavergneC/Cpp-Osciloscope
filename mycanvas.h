@@ -21,6 +21,8 @@ private :
     double m_echelleX;
     double m_echelleY;
 
+    bool enPause = 0;
+
     QList<unsigned int>*values;
 
     void debugSetValue();
@@ -30,6 +32,7 @@ public slots:
     void changerZoom(int z);
     void changerEchelleX(int ex);
     void changerEchelleY(int ey);
+    void pausePlay();
 
     void newValue(short v);
     void updateCanvas();

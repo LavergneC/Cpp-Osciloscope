@@ -5,6 +5,8 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include "param.h"
+#include "mycanvas.h"
+#include "serialcapture.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +22,12 @@ public:
 
 private:
     QGridLayout* maGrille;
+    MyCanvas *myC;
+    SerialCapture * myS;
+
+    Param* zoomParam;
+    Param* echelleXParam;
+    Param* echelleYParam;
 };
 
 #endif // MAINWINDOW_H
