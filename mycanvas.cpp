@@ -6,7 +6,13 @@
 
 MyCanvas::MyCanvas(QWidget *parent) : QWidget(parent)
 {
-    setFixedSize(m_largeur, m_hauteur); //marche po
+    setFixedSize(m_largeur, m_hauteur);
+    QRect fondLabel;
+    fondLabel.setCoords(0,0,30,10);
+    fondLabel.setRect(0,0,30,10);
+    labelRunPause = new QLabel(this);
+    labelRunPause->setText("RUNNING");
+    labelRunPause->setFrameRect(fondLabel);
 
     /* Les valeurs stockées à afficher */
     values = new QList<unsigned int>;
@@ -27,7 +33,7 @@ QPointF MyCanvas::coo(double x, double y)
 
 void MyCanvas::paintEvent(QPaintEvent *)
 {
-    // debugSetValue();/*Debug ONLY*/
+    // debugSetValue(); /*Debug ONLY*/
 
     QPainter maFeuille(this);
 
