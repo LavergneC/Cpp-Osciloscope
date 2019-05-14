@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     boutonC->setText("Couleur");
     QPushButton* boutonP = new QPushButton(this);
     boutonP->setText("Pause/Play");
+    QPushButton* boutonT = new QPushButton(this);
+    boutonT->setText("Trigger");
 
     zoomParam = new Param("Zoom",50,200,100,this);
     echelleXParam = new Param("EchelleX",50,200,100,this);
@@ -42,10 +44,11 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     maGrille2->addWidget(zoomParam,1,0);
 
     /* On ajoute les boutons dans la grille des boutons */
-    grilleBoutons->addWidget(boutonQ,1,1);
+    grilleBoutons->addWidget(boutonQ,2,1);
     grilleBoutons->addWidget(boutonC,0,0);
     grilleBoutons->addWidget(boutonR,0,1);
     grilleBoutons->addWidget(boutonP,1,0);
+    grilleBoutons->addWidget(boutonT, 1, 1);
 
     /* On place la grille des bouton dans la grille des widgets */
     maGrille2->addLayout(grilleBoutons,1,1);
@@ -64,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     connect(boutonC, &QPushButton::clicked, myC, &MyCanvas::changerCouleur);
     connect(boutonQ, &QPushButton::clicked, qApp, &QCoreApplication::quit);
     connect(boutonP, &QPushButton::clicked, myC, &MyCanvas::pausePlay);
+
+    connect(boutonT, &QPushButton::clicked, myC, &MyCanvas::trigger);
 }
 
 MainWindow::~MainWindow()

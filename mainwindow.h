@@ -28,6 +28,7 @@ private:
     Param* zoomParam;
     Param* echelleXParam;
     Param* echelleYParam;
+    Param* triger;
 };
 
 #endif // MAINWINDOW_H

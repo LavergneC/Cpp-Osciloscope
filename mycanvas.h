@@ -24,8 +24,11 @@ private :
     double m_echelleY;
 
     bool enPause = 0;
+    bool enTrigger = 0;
 
-    QList<unsigned int>*values;
+    short valueTrigger;
+
+    QList<short>*values;
 
     void debugSetValue();
 
@@ -38,6 +41,8 @@ public slots:
 
     void newValue(short v);
     void updateCanvas();
+
+    void trigger();
 };
 
 #endif // MYCANVAS_H

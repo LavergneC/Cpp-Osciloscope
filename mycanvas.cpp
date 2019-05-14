@@ -15,7 +15,7 @@ MyCanvas::MyCanvas(QWidget *parent) : QWidget(parent)
     labelRunPause->setFrameRect(fondLabel);
 
     /* Les valeurs stockées à afficher */
-    values = new QList<unsigned int>;
+    values = new QList<short>;
 
     /* Initialisation d'attributs qui pourront être changes par slot*/
     m_zoom = 100;
@@ -42,11 +42,11 @@ void MyCanvas::paintEvent(QPaintEvent *)
     maFeuille.translate(m_largeur/2,m_hauteur/2); // Permet de placer l'origine
 
     QPen myPen = *new QPen(Qt::blue,2*(m_zoom/100),Qt::SolidLine);
-    maFeuille.setPen(myPen); // utile ?
+    //maFeuille.setPen(myPen); // utile ?
 
      /* Dessin des lignes verticales et des graduations verticales*/
+
     for(int x = -500; x < 501; x+=10){
-        myPen = *new QPen(Qt::gray,2*(m_zoom/100),Qt::SolidLine);
         maFeuille.setPen(myPen);
         maFeuille.drawLine(coo(x,-500),coo(x,500));
         myPen = *new QPen(Qt::blue,2*(m_zoom/100),Qt::SolidLine);
@@ -77,7 +77,6 @@ void MyCanvas::paintEvent(QPaintEvent *)
     }
 
     maFeuille.restore();
-
 
     updateCanvas();
 }
@@ -127,8 +126,18 @@ void MyCanvas::changerEchelleY(int eY){
 void MyCanvas::newValue(short v){
     if(enPause)
         return;
+    /* Variable de test conernant l'enregistrement des valeurs */
+    static bool testTrigger = 0;
+
     v /=100; // remise à l'echelle, très moche
     static unsigned short index = 0;
+
+    if(enTrigger && !testTrigger)
+    {
+        index=0;
+        if ( ( v <= valueTrigger && v+30 >= valueTrigger) || (v >= valueTrigger && v-30 <= valueTrigger) )
+            testTrigger=1;
+    }
 
     /*
      * La taille de la liste vallue est limite à 1000 car le camvas fait 1000 pixels
@@ -137,10 +146,16 @@ void MyCanvas::newValue(short v){
      */
     if (values->size()<1000){
         values->push_back(v);
+        index = (index+1)%1000;
     }
-    else
-        values->replace(index,v);
-    index = (index+1)%1000;
+    else{
+        if(!enTrigger || (enTrigger && testTrigger) ){
+            values->replace(index,v);
+            index = (index+1)%1000;
+        }
+        if(index == 0)
+            testTrigger=0;
+    }
 }
 
 void MyCanvas::updateCanvas(){
@@ -163,4 +178,10 @@ void MyCanvas::debugSetValue(){
 }
 void MyCanvas::pausePlay(){
     enPause ^= 1;
+}
+
+void MyCanvas::trigger(){
+    enTrigger ^= 1;
+    valueTrigger = values->at(15);
+    changerCouleur();
 }

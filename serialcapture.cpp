@@ -38,7 +38,7 @@ void SerialCapture::readData()
 
     /* Chaque valeur est émises par un signal */
     foreach (auto v, laListe) {
-        std::cout<<"recu : "<<v.toStdString()<<std::endl;
+        // std::cout<<"recu : "<<v.toStdString()<<std::endl;
         emit newValue(v.toShort());
     }
     emit finTram(); // Fin tram permet de mettre à jour de canvas une seul fois par lecture
